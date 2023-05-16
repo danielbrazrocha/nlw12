@@ -1,3 +1,15 @@
-const message: string = 'running TS file'
+import fastify from 'fastify'
 
-console.log(message)
+const app = fastify()
+
+app.get('/hello', () => {
+  return 'Hello World'
+})
+
+app
+  .listen({
+    port: 3333,
+  })
+  .then(() => {
+    console.log('Server running on http://localhost:3333')
+  })
