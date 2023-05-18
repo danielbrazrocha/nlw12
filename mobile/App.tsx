@@ -13,6 +13,8 @@ import Stripes from './src/assets/stripes.svg'
 import NLWLogo from './src/assets/nlw-spacetime-logo.svg'
 import { styled } from 'nativewind'
 import { api } from './src/lib/api'
+import * as SecureStore from 'expo-secure-store'
+
 const StyledStripes = styled(Stripes)
 
 const discovery = {
@@ -54,7 +56,11 @@ export default function App() {
         })
         .then((response) => {
           const { token } = response.data
-        console.log("🚀 ~ file: App.tsx:59 ~ useEffect ~ token:", token)
+          console.log("🚀 ~ file: App.tsx:59 ~ .then ~ token:", token)
+          SecureStore.setItemAsync('token', token);
+      }).catch(err => {
+        console.error("🚀 ~ file: App.tsx:61 ~ .then ~ err:", err)
+        
       })
     }
   }, [response])
