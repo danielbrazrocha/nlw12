@@ -27,7 +27,10 @@ export async function authRoutes(app: FastifyInstance) {
     )
 
     const { access_token } = accessTokenResponse.data
-    console.log("🚀 ~ file: auth.ts:30 ~ app.post ~ access_token:", access_token)
+    console.log(
+      '🚀 ~ file: auth.ts:30 ~ app.post ~ access_token:',
+      access_token,
+    )
 
     const userResponse = await axios.get('https://api.github.com/user', {
       headers: {
@@ -49,7 +52,7 @@ export async function authRoutes(app: FastifyInstance) {
         githubId: userInfo.id,
       },
     })
-    console.log("🚀 ~ file: auth.ts:53 ~ app.post ~ user:", user)
+    console.log('🚀 ~ file: auth.ts:53 ~ app.post ~ user:', user)
 
     if (!user) {
       user = await prisma.user.create({
@@ -60,6 +63,21 @@ export async function authRoutes(app: FastifyInstance) {
           avatarUrl: userInfo.avatar_url,
         },
       })
+    }
+
+    const token = app.jwt.sign(
+      {
+        name: user.name,
+        avatarUrl: user.avatarUrl,
+      },
+      {
+        sub: user.id,
+        expiresIn: '30 days',
+      },
+    )
+
+    return {
+      token,
     }
   })
 }
