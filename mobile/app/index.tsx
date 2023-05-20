@@ -28,15 +28,12 @@ export default function App() {
   )
 
   async function handleGithubOAuthCode(code: string) {
-    const response = await api.post('/register', {
+    const response = await api.post('/register/mobile', {
       code,
     })
 
     const { token } = response.data
-    console.log(
-      '🚀 ~ file: index.tsx:54 ~ handleGithubOAuthCode ~ token:',
-      token,
-    )
+    console.log('mobile token:', token)
 
     await SecureStore.setItemAsync('token', token)
 

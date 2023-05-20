@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
 
   const redirectTo = request.cookies.get('redirectTo')?.value
 
-  const registerResponse = await api.post('/register', {
+  const registerResponse = await api.post('/register/web', {
     code,
   })
 
